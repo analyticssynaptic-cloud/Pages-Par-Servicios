@@ -3,102 +3,246 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Inscríbete a Pausas Activas PAR Servicios — Bienestar laboral y seguridad vial.">
 <title>PAR Servicios · Pausas Activas</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=Barlow+Condensed:wght@700&display=swap" rel="stylesheet">
 
 <style>
-/* ===== TOKENS PAR ===== */
 :root {
-  --brand-green: #0FBF8B;
-  --brand-green-dark: #0A9E72;
-  --brand-green-soft: #E6F9F2;
-  --brand-green-deep: #086B4D;
-  --bg-main: #2A3441;
-  --dark2: #3D4A5C;
-  --text-light: #FFFFFF;
-  --bg-light: #FFFFFF;
-  --bg-surface: #F7F9FB;
-  --border-light: #E5EAF0;
-  --text-dark: #1A202C;
-  --text-muted: #5B6878;
-  --danger: #DC2626;
-  --danger-soft: #FEF2F2;
-  --success-soft: #E6F9F2;
-  --sh-green: rgba(15,191,139,.32);
-  --sh-md: 0 4px 14px rgba(42,52,65,.10);
-  --gh-green: linear-gradient(135deg,#0FBF8B 0%,#0A9E72 100%);
-  --ease: .3s cubic-bezier(.4,0,.2,1);
-  --ease-bounce: .4s cubic-bezier(.34,1.56,.64,1);
+  --green:      #0FBF8B;
+  --green-dark: #0A9E72;
+  --green-deep: #086B4D;
+  --green-soft: #E6F9F2;
+  --bg:         #2A3441;
+  --bg2:        #3D4A5C;
+  --white:      #FFFFFF;
+  --muted:      rgba(255,255,255,.65);
+  --border:     rgba(255,255,255,.10);
+  --sh-green:   rgba(15,191,139,.35);
+  --gh-green:   linear-gradient(135deg,#0FBF8B,#0A9E72);
+  --gh-bg:      linear-gradient(145deg,#2A3441 0%,#3D4A5C 60%,#0A4A35 100%);
+  --ease:       .28s cubic-bezier(.4,0,.2,1);
+  --bounce:     .38s cubic-bezier(.34,1.56,.64,1);
+
+  /* light modal */
+  --ml-bg:      #FFFFFF;
+  --ml-surface: #F7F9FB;
+  --ml-border:  #E5EAF0;
+  --ml-text:    #1A202C;
+  --ml-muted:   #5B6878;
+  --danger:     #DC2626;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { width: 100%; height: 100%; overflow: hidden; }
-
-/* ===== IFRAME FULL SCREEN ===== */
-#site-frame {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  border: none;
-  display: block;
-  z-index: 1;
-}
-
-/* ===== AVISO si iframe bloqueado ===== */
-#frame-fallback {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: #F7F9FB;
-  z-index: 2;
+html { height: 100%; }
+body {
+  font-family: 'Barlow', -apple-system, sans-serif;
+  background: var(--gh-bg);
+  min-height: 100vh;
+  color: var(--white);
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 14px;
-  padding: 24px;
-  text-align: center;
-  font-family: 'Barlow', -apple-system, sans-serif;
+  padding: 32px 20px;
+  position: relative;
+  overflow-x: hidden;
 }
-#frame-fallback h2 { font-size: 1.3rem; color: #2A3441; }
-#frame-fallback p  { color: #5B6878; font-size: .95rem; max-width: 400px; line-height: 1.6; }
-#frame-fallback a  { color: #0FBF8B; font-weight: 600; }
 
-/* ===== BOTÓN FLOTANTE ===== */
-#par-fab {
+/* ── RADIALES DECORATIVOS ── */
+body::before {
+  content: '';
   position: fixed;
-  bottom: 24px;
-  right: 24px;
-  height: 52px;
-  padding: 0 22px 0 16px;
-  border-radius: 50px;
-  background: var(--gh-green);
-  border: none;
-  cursor: pointer;
+  top: -100px; right: -100px;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(15,191,139,.22) 0%, transparent 68%);
+  pointer-events: none;
+}
+body::after {
+  content: '';
+  position: fixed;
+  bottom: -80px; left: -80px;
+  width: 380px; height: 380px;
+  background: radial-gradient(circle, rgba(15,191,139,.14) 0%, transparent 68%);
+  pointer-events: none;
+}
+
+/* ── CARD CENTRAL ── */
+.card {
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  backdrop-filter: blur(18px) saturate(140%);
+  padding: 44px 40px 40px;
+  max-width: 520px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 32px 80px rgba(0,0,0,.22);
+}
+@media (max-width: 480px) { .card { padding: 32px 22px 28px; } }
+
+/* ── LOGO ── */
+.logo-wrap { margin-bottom: 26px; }
+.logo-wrap img {
+  height: 72px;
+  width: auto;
+  filter: drop-shadow(0 4px 14px rgba(15,191,139,.22));
+}
+
+/* ── BADGE ── */
+.badge {
+  display: inline-block;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--green);
+  background: rgba(15,191,139,.12);
+  border: 1px solid rgba(15,191,139,.28);
+  border-radius: 20px;
+  padding: 5px 16px;
+  margin-bottom: 18px;
+}
+
+/* ── TÍTULOS ── */
+h1 {
+  font-size: clamp(1.7rem, 4vw, 2.4rem);
+  font-weight: 800;
+  line-height: 1.18;
+  color: var(--white);
+  margin-bottom: 12px;
+  letter-spacing: -.02em;
+}
+h1 span { color: var(--green); }
+
+.subtitle {
+  font-size: .98rem;
+  color: var(--muted);
+  line-height: 1.65;
+  margin-bottom: 30px;
+  max-width: 380px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ── BOTONES ── */
+.cta-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.btn-primary {
   display: flex;
   align-items: center;
-  gap: 9px;
-  box-shadow: 0 8px 22px var(--sh-green);
-  z-index: 9999;
-  transition: transform var(--ease-bounce), box-shadow var(--ease);
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 15px 28px;
+  background: var(--gh-green);
   color: #fff;
-  font-family: 'Barlow', -apple-system, sans-serif;
-  font-size: .92rem;
+  border: none;
+  border-radius: 14px;
+  font-family: 'Barlow', sans-serif;
+  font-size: 1.02rem;
   font-weight: 700;
-  letter-spacing: .2px;
-  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 0 8px 26px var(--sh-green);
+  transition: transform var(--bounce), box-shadow var(--ease);
+  text-decoration: none;
 }
-#par-fab:hover {
-  transform: scale(1.06) translateY(-2px);
-  box-shadow: 0 14px 34px rgba(15,191,139,.48);
+.btn-primary:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 14px 36px rgba(15,191,139,.5);
 }
-#par-fab svg { width: 22px; height: 22px; flex-shrink: 0; }
+.btn-primary svg { width: 20px; height: 20px; flex-shrink: 0; }
 
-/* ===== OVERLAY ===== */
+.btn-outline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  width: 100%;
+  padding: 13px 24px;
+  background: transparent;
+  color: rgba(255,255,255,.82);
+  border: 1.5px solid rgba(255,255,255,.18);
+  border-radius: 14px;
+  font-family: 'Barlow', sans-serif;
+  font-size: .95rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color var(--ease), color var(--ease), background var(--ease);
+}
+.btn-outline:hover {
+  border-color: rgba(255,255,255,.4);
+  color: #fff;
+  background: rgba(255,255,255,.06);
+}
+.btn-outline svg { width: 17px; height: 17px; flex-shrink: 0; }
+
+/* ── DIVISOR ── */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: rgba(255,255,255,.25);
+  font-size: .8rem;
+  margin: 2px 0;
+}
+.divider::before, .divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(255,255,255,.10);
+}
+
+/* ── PILLS BENEFICIOS ── */
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(15,191,139,.08);
+  border: 1px solid rgba(15,191,139,.18);
+  border-radius: 20px;
+  padding: 5px 13px;
+  font-size: .8rem;
+  font-weight: 600;
+  color: rgba(255,255,255,.8);
+}
+.pill svg { width: 13px; height: 13px; color: var(--green); }
+
+/* ── FOOTER ── */
+.foot {
+  margin-top: 22px;
+  font-size: .78rem;
+  color: rgba(255,255,255,.3);
+  text-align: center;
+  z-index: 2;
+  position: relative;
+}
+
+/* ══════════════════════════════
+   MODAL
+══════════════════════════════ */
 #par-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,.52);
-  backdrop-filter: blur(5px);
+  background: rgba(0,0,0,.54);
+  backdrop-filter: blur(6px);
   z-index: 10000;
   display: none;
   align-items: center;
@@ -107,45 +251,39 @@ html, body { width: 100%; height: 100%; overflow: hidden; }
 }
 #par-overlay.open {
   display: flex;
-  animation: parFadeIn .28s ease forwards;
+  animation: fadeIn .26s ease forwards;
 }
-@keyframes parFadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-/* ===== MODAL ===== */
 #par-modal {
-  background: var(--bg-light);
+  background: var(--ml-bg);
   border-radius: 20px;
   width: 100%;
   max-width: 460px;
   overflow: hidden;
-  box-shadow: 0 28px 70px rgba(0,0,0,.28);
-  animation: parSlideUp .32s cubic-bezier(.34,1.3,.64,1) forwards;
+  box-shadow: 0 28px 72px rgba(0,0,0,.32);
+  animation: slideUp .32s cubic-bezier(.34,1.3,.64,1) forwards;
 }
-@keyframes parSlideUp {
-  from { transform: translateY(28px) scale(.97); opacity: 0; }
+@keyframes slideUp {
+  from { transform: translateY(26px) scale(.97); opacity: 0; }
   to   { transform: translateY(0) scale(1); opacity: 1; }
 }
 
-/* Header */
-.par-hdr {
+/* Header modal */
+.mhdr {
   background: var(--gh-green);
   padding: 22px 26px 18px;
   position: relative;
 }
-.par-hdr h2 {
-  font-family: 'Barlow', -apple-system, sans-serif;
-  font-size: 1.45rem;
+.mhdr h2 {
+  font-size: 1.4rem;
   font-weight: 800;
   color: #fff;
-  margin: 0 0 3px;
+  margin-bottom: 3px;
+  line-height: 1.2;
 }
-.par-hdr p {
-  font-size: .85rem;
-  color: rgba(255,255,255,.82);
-  margin: 0;
-  font-family: 'Barlow', -apple-system, sans-serif;
-}
-.par-close {
+.mhdr p { font-size: .85rem; color: rgba(255,255,255,.82); }
+.m-close {
   position: absolute;
   top: 12px;
   right: 14px;
@@ -161,111 +299,110 @@ html, body { width: 100%; height: 100%; overflow: hidden; }
   justify-content: center;
   transition: background var(--ease);
 }
-.par-close:hover { background: rgba(255,255,255,.35); }
-.par-close svg { width: 16px; height: 16px; }
+.m-close:hover { background: rgba(255,255,255,.35); }
+.m-close svg { width: 16px; height: 16px; }
 
-/* Body */
-.par-body { padding: 24px 26px 26px; }
+/* Body modal */
+.mbdy { padding: 24px 26px 28px; }
 
-/* Campos */
-.par-fg { margin-bottom: 15px; }
-.par-fg label {
+.fg { margin-bottom: 15px; }
+.fg label {
   display: block;
   font-size: .8rem;
   font-weight: 600;
-  color: var(--text-muted);
+  color: var(--ml-muted);
   margin-bottom: 5px;
-  font-family: 'Barlow', -apple-system, sans-serif;
 }
-.par-fg input, .par-fg textarea {
+.fg input, .fg textarea {
   width: 100%;
   padding: 11px 14px;
-  border: 1.5px solid var(--border-light);
+  border: 1.5px solid var(--ml-border);
   border-radius: 10px;
-  font-family: 'Barlow', -apple-system, sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-size: .93rem;
-  color: var(--text-dark);
-  background: var(--bg-surface);
+  color: var(--ml-text);
+  background: var(--ml-surface);
   outline: none;
   transition: border-color var(--ease), box-shadow var(--ease);
   resize: none;
 }
-.par-fg input:focus, .par-fg textarea:focus {
-  border-color: var(--brand-green);
+.fg input:focus, .fg textarea:focus {
+  border-color: var(--green);
   box-shadow: 0 0 0 3px rgba(15,191,139,.12);
 }
-.par-fg input.par-err { border-color: var(--danger); }
-.par-ferr { font-size: .77rem; color: var(--danger); margin-top: 4px; display: none; font-family: 'Barlow', -apple-system, sans-serif; }
-.par-ferr.show { display: block; }
+.fg input.inp-err { border-color: var(--danger); }
 
-.par-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-@media (max-width: 420px) { .par-row { grid-template-columns: 1fr; } }
+.ferr {
+  font-size: .77rem;
+  color: var(--danger);
+  margin-top: 4px;
+  display: none;
+}
+.ferr.show { display: block; }
 
-/* Botón submit */
-.par-btn-submit {
+.frow { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 400px) { .frow { grid-template-columns: 1fr; } }
+
+.btn-send {
   width: 100%;
   padding: 13px;
   background: var(--gh-green);
   color: #fff;
   border: none;
   border-radius: 12px;
-  font-family: 'Barlow', -apple-system, sans-serif;
+  font-family: 'Barlow', sans-serif;
   font-weight: 700;
   font-size: .97rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 9px;
   box-shadow: 0 6px 20px var(--sh-green);
   transition: transform var(--ease), box-shadow var(--ease);
   margin-top: 4px;
 }
-.par-btn-submit:hover:not(:disabled) {
+.btn-send:hover:not(:disabled) {
   transform: translateY(-1px);
   box-shadow: 0 10px 28px var(--sh-green);
 }
-.par-btn-submit:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+.btn-send:disabled { opacity: .6; cursor: not-allowed; transform: none; }
 
-/* Spinner */
-.par-spin {
+.spin {
   width: 17px; height: 17px;
-  border: 2.5px solid rgba(255,255,255,.35);
+  border: 2.5px solid rgba(255,255,255,.3);
   border-top-color: #fff;
   border-radius: 50%;
-  animation: parSpin .7s linear infinite;
+  animation: rot .7s linear infinite;
   display: none;
 }
-@keyframes parSpin { to { transform: rotate(360deg); } }
-.par-btn-submit.loading .par-spin { display: block; }
-.par-btn-submit.loading .par-btxt { display: none; }
+@keyframes rot { to { transform: rotate(360deg); } }
+.btn-send.loading .spin { display: block; }
+.btn-send.loading .btxt { display: none; }
 
-/* Error global */
-.par-errbox {
-  background: var(--danger-soft);
+.errbox {
+  background: #FEF2F2;
   border: 1.5px solid rgba(220,38,38,.25);
   border-radius: 9px;
-  padding: 11px 14px;
-  font-size: .86rem;
+  padding: 10px 14px;
+  font-size: .85rem;
   color: var(--danger);
   display: none;
   margin-bottom: 14px;
-  font-family: 'Barlow', -apple-system, sans-serif;
 }
-.par-errbox.show { display: block; }
+.errbox.show { display: block; }
 
 /* Éxito */
-.par-ok {
-  background: var(--success-soft);
+.okbox {
+  background: #E6F9F2;
   border: 1.5px solid rgba(15,191,139,.3);
   border-radius: 14px;
   padding: 26px 20px;
   text-align: center;
   display: none;
-  font-family: 'Barlow', -apple-system, sans-serif;
 }
-.par-ok.show { display: block; animation: parFadeIn .4s ease; }
-.par-ok-ico {
+.okbox.show { display: block; animation: fadeIn .4s ease; }
+.ok-ico {
   width: 52px; height: 52px;
   background: var(--gh-green);
   border-radius: 50%;
@@ -273,43 +410,50 @@ html, body { width: 100%; height: 100%; overflow: hidden; }
   margin: 0 auto 14px;
   box-shadow: 0 6px 18px var(--sh-green);
 }
-.par-ok-ico svg { width: 26px; height: 26px; color: #fff; }
-.par-ok h3 { font-size: 1.1rem; font-weight: 700; color: var(--brand-green-deep); margin-bottom: 6px; }
-.par-ok p  { font-size: .88rem; color: var(--text-muted); }
-.par-ok-id { font-size: .78rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); margin-top: 10px; }
+.ok-ico svg { width: 26px; height: 26px; color: #fff; }
+.okbox h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--green-deep);
+  margin-bottom: 7px;
+}
+.okbox p { font-size: .88rem; color: var(--ml-muted); }
+.ok-ref {
+  font-size: .76rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--ml-muted);
+  margin-top: 10px;
+}
 </style>
 </head>
 <body>
 
-<!-- ===== IFRAME · SITIO JIMDO ===== -->
-<iframe
-  id="site-frame"
-  src="https://parserviciospausas-activas.jimdosite.com/"
-  title="PAR Servicios Pausas Activas"
-  allow="fullscreen"
-  loading="eager">
-</iframe>
-
-<!-- Fallback si Jimdo bloquea iframe -->
-<div id="frame-fallback">
-  <h2>Visita nuestro sitio</h2>
-  <p>Tu navegador no puede mostrar el sitio aquí directamente.<br>
-     <a href="https://parserviciospausas-activas.jimdosite.com/" target="_blank" rel="noopener">
-       Haz clic para abrirlo
-     </a>
-  </p>
-</div>
-
 <!-- SVG SYMBOLS -->
 <svg style="display:none" xmlns="http://www.w3.org/2000/svg">
-  <symbol id="i-user-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <symbol id="i-register" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
     <circle cx="8.5" cy="7" r="4"/>
     <line x1="20" y1="8" x2="20" y2="14"/>
     <line x1="23" y1="11" x2="17" y2="11"/>
   </symbol>
+  <symbol id="i-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+    <polyline points="15 3 21 3 21 9"/>
+    <line x1="10" y1="14" x2="21" y2="3"/>
+  </symbol>
   <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
     <polyline points="20 6 9 17 4 12"/>
+  </symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+  </symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+  </symbol>
+  <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
   </symbol>
   <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
     <line x1="18" y1="6" x2="6" y2="18"/>
@@ -317,69 +461,108 @@ html, body { width: 100%; height: 100%; overflow: hidden; }
   </symbol>
 </svg>
 
-<!-- ===== BOTÓN FLOTANTE ===== -->
-<button id="par-fab" onclick="parAbrir()" aria-label="Inscribirse en Pausas Activas">
-  <svg><use href="#i-user-plus"/></svg>
-  Inscríbete aquí
-</button>
+<!-- ===== CARD CENTRAL ===== -->
+<div class="card">
 
-<!-- ===== OVERLAY + MODAL ===== -->
-<div id="par-overlay" role="dialog" aria-modal="true" aria-labelledby="par-modal-title">
+  <!-- Logo -->
+  <div class="logo-wrap">
+    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZAAAAC2CAYAAAD3PdtTAAABCGlDQ1BJQ0MgUHJvZmlsZQAAeJxjYGA8wQAELAYMDLl5JUVB7k4KEZFRCuwPGBiBEAwSk4sLGHADoKpv1yBqL+viUYcLcKakFicD6Q9ArFIEtBxopAiQLZIOYWuA2EkQtg2IXV5SUAJkB4DYRSFBzkB2CpCtkY7ETkJiJxcUgdT3ANk2uTmlyQh3M/Ck5oUGA2kOIJZhKGYIYnBncAL5H6IkfxEDg8VXBgbmCQixpJkMDNtbGRgkbiHEVBYwMPC3MDBsO48QQ4RJQWJRIliIBYiZ0tIYGD4tZ2DgjWRgEL7AwMAVDQsIHG5TALvNnSEfCNMZchhSgSKeDHkMyQx6QJYRgwGDIYMZAKbWPz9HbOBQAACCAklEQVR42uy9eXxd1Xmu/Lxrrb3PoHkePNsC2zKjBZhZECYzZCwiTZq2aZOQpEnukH63adM0Qklue3vb3ts2t0lDmjQtZOKQkYEQSQQCZBIgkAFBEoFkSkZARjIBGcWQGzAYWA/73v2s9f5x9tnnnqMD2JIsWX7fr6RIZ599zt57r/2u9z3vs9YWQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEEEIIIYQQQgghhBBCCCGEECFEWRIEtLUF69IWfqftLgshGABw880y/5upFAOw0ZJFCCGEEMCptLQ4aG9ziQ6rU4sBJGf9ERHQ1uaiudmNlHGECCHyQN5qCGutCh+/bVdZCMEAgJtvlvnfTKUYgI2WLEIIIYQApNLS4qC9zSU6rE4tBpCc9UdEQFubi+ZmN1LGESKEyAN5q6G1VeHhhy0R2cDFQDNW1lSUnHsGI4d3kaKqStP3+FNXZgb+/95aPi89u+XdGS8fGj1f7wFPGRif5PE8AWBmApEEoKNtFSFChEiBnMr3zfm7D/TG2trPlt10tRHD45/zq0uLnfoaFJWVgFwHEAJMEsb3YMengKEJZPcOwu7eZ6i89LNjDz4q0T/5NwCA9naBjg7Ov26ECBEiRArklIEEyOTl+/q1n120Yf11oqHs8syqWqSTDrRgrQ3D+B6gGS4ESQhpLbNVZJx4DC4EnLSnxOgUqHc/hl/pfSL71DO/wv6JvwwUSatCRycDMNE2ixAhQqRATna0QeJuMmCux7Xrz0ssW/KN2jWn16K2HJMuZcdYk7a+AyUJQkGyABkGGwurAJYEaAa0gQADSrCMO75gRsm0dsWrB+C/uP1vRh789b9jcGJbtL0iRIhwilvjbxG0tir6ea+Bi9Njlzf/OnbjFR91168typYlMZCdMmmwI5yYZKGIWEJYAjODWYJIgkkApKCEAwUJZsASyMJKAyMzwhpZXkp1y5dfZuPxT3FN+X6za4+Ly1r3o7eXEIW0IkSIECmQkxAtLQ498YTmpppVJW+74P7F17YunVpU5Y+zFhlrSTgxQVIG3oVlkBVgojD3ATAYxASpCcIE0S8hCAwCM4GEAyldkfGyNO2QdZuXZ+MlRe8Sg2MJ78nf3t30qY3u8G96olBWhAgRTimc+iGstjaJVMqgsXFJ8oaLni679Jy6UYdMWhgJEiASABFg7cxiMMHmsuwCwc+ZIC2DwYEvEbaFWObw5wwigiTAGsNFBn7peHZ09McPDk498NTlre3tY50dHRZR38i8GELNzc0SWHfYX1gHYDOQ/y8AdHd3G7w1c1The" alt="PAR Servicios" onerror="this.style.display='none'">
+  </div>
+
+  <span class="badge">Bienestar Laboral · Seguridad Vial</span>
+
+  <h1>Pausas Activas<br>para tu <span>Empresa</span></h1>
+
+  <p class="subtitle">
+    Reduce el ausentismo, mejora la productividad y cuida la salud de tu equipo con nuestro programa certificado de pausas activas.
+  </p>
+
+  <div class="cta-group">
+    <!-- Botón principal: abre el formulario -->
+    <button class="btn-primary" onclick="parAbrir()">
+      <svg><use href="#i-register"/></svg>
+      Inscríbete Ahora — Es Gratis
+    </button>
+
+    <div class="divider">o</div>
+
+    <!-- Botón secundario: abre Jimdo en nueva pestaña -->
+    <a class="btn-outline"
+       href="https://parserviciospausas-activas.jimdosite.com/"
+       target="_blank"
+       rel="noopener noreferrer">
+      <svg><use href="#i-external"/></svg>
+      Ver sitio completo de PAR Servicios
+    </a>
+  </div>
+
+  <!-- Pills de beneficios -->
+  <div class="pills">
+    <span class="pill"><svg><use href="#i-shield"/></svg> PESV Certificado</span>
+    <span class="pill"><svg><use href="#i-heart"/></svg> Salud Ocupacional</span>
+    <span class="pill"><svg><use href="#i-star"/></svg> +500 Empresas</span>
+    <span class="pill"><svg><use href="#i-check"/></svg> 100% Online</span>
+  </div>
+
+</div>
+
+<p class="foot">© 2025 PAR Servicios Integrales · Colombia</p>
+
+<!-- ===== MODAL REGISTRO ===== -->
+<div id="par-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
   <div id="par-modal">
 
-    <div class="par-hdr">
-      <button class="par-close" onclick="parCerrar()" aria-label="Cerrar">
+    <div class="mhdr">
+      <button class="m-close" onclick="parCerrar()" aria-label="Cerrar">
         <svg><use href="#i-x"/></svg>
       </button>
-      <h2 id="par-modal-title">Inscríbete a Pausas Activas</h2>
+      <h2 id="modal-title">Inscríbete a Pausas Activas</h2>
       <p>Completa el formulario y te contactamos pronto</p>
     </div>
 
-    <div class="par-body">
-      <div class="par-errbox" id="par-errbox"></div>
+    <div class="mbdy">
+      <div class="errbox" id="par-errbox"></div>
 
       <form id="par-form" novalidate>
-        <div class="par-fg">
+        <div class="fg">
           <label for="par-nombre">Nombre completo <span style="color:var(--danger)">*</span></label>
           <input type="text" id="par-nombre" placeholder="Ej: Juan Pérez" autocomplete="name">
-          <div class="par-ferr" id="err-nombre">Ingresa tu nombre completo.</div>
+          <div class="ferr" id="err-nombre">Ingresa tu nombre completo.</div>
         </div>
 
-        <div class="par-fg">
+        <div class="fg">
           <label for="par-email">Correo electrónico <span style="color:var(--danger)">*</span></label>
           <input type="email" id="par-email" placeholder="juan@empresa.com" autocomplete="email">
-          <div class="par-ferr" id="err-email">Ingresa un correo electrónico válido.</div>
+          <div class="ferr" id="err-email">Ingresa un correo válido.</div>
         </div>
 
-        <div class="par-row">
-          <div class="par-fg">
+        <div class="frow">
+          <div class="fg">
             <label for="par-empresa">Empresa</label>
-            <input type="text" id="par-empresa" placeholder="Nombre de tu empresa" autocomplete="organization">
+            <input type="text" id="par-empresa" placeholder="Tu empresa" autocomplete="organization">
           </div>
-          <div class="par-fg">
+          <div class="fg">
             <label for="par-tel">Teléfono</label>
             <input type="tel" id="par-tel" placeholder="+57 300 123 4567" autocomplete="tel">
           </div>
         </div>
 
-        <div class="par-fg">
+        <div class="fg">
           <label for="par-msg">Mensaje (opcional)</label>
           <textarea id="par-msg" rows="3" placeholder="¿Algo que quieras contarnos?"></textarea>
         </div>
 
-        <button type="submit" class="par-btn-submit" id="par-submit">
-          <div class="par-spin"></div>
-          <span class="par-btxt">Enviar Inscripción</span>
+        <button type="submit" class="btn-send" id="par-submit">
+          <div class="spin"></div>
+          <span class="btxt">Enviar Inscripción</span>
         </button>
       </form>
 
-      <div class="par-ok" id="par-ok">
-        <div class="par-ok-ico">
-          <svg><use href="#i-check"/></svg>
-        </div>
+      <div class="okbox" id="par-ok">
+        <div class="ok-ico"><svg><use href="#i-check"/></svg></div>
         <h3>¡Inscripción Exitosa!</h3>
         <p>Recibimos tus datos. Pronto te contactaremos para coordinar las pausas activas.</p>
-        <div class="par-ok-id" id="par-ok-id"></div>
+        <div class="ok-ref" id="ok-ref"></div>
       </div>
     </div>
 
@@ -387,93 +570,63 @@ html, body { width: 100%; height: 100%; overflow: hidden; }
 </div>
 
 <script>
-/* ===== URL GOOGLE APPS SCRIPT ===== */
+/* ─── URL GOOGLE APPS SCRIPT ─── */
 const GAS_URL = "https://script.google.com/macros/s/AKfycbyj1mZJ6gTsnRrvnTFM50UTFqO8DintslOzmyotmQ6Zt0ZuVeVuBE0DUBWLCTphK1tE/exec";
 
-/* ===== DETECTAR SI IFRAME CARGA ===== */
-const frame = document.getElementById('site-frame');
-frame.addEventListener('error', () => {
-  document.getElementById('frame-fallback').style.display = 'flex';
-  frame.style.display = 'none';
-});
-// Timeout por si Jimdo bloquea sin disparar error
-setTimeout(() => {
-  try {
-    const doc = frame.contentDocument || frame.contentWindow.document;
-    if (!doc || doc.readyState === 'loading') throw new Error();
-  } catch(e) {
-    // No podemos acceder = bloqueado por CORS/X-Frame — pero el iframe igual carga visualmente
-    // Solo mostramos fallback si el frame realmente no tiene contenido visible
-  }
-}, 8000);
-
-/* ===== MODAL ===== */
+/* ─── MODAL ─── */
 function parAbrir() {
   const ov = document.getElementById('par-overlay');
   ov.style.display = 'flex';
   requestAnimationFrame(() => ov.classList.add('open'));
   document.body.style.overflow = 'hidden';
 }
-
 function parCerrar() {
   const ov = document.getElementById('par-overlay');
   ov.classList.remove('open');
-  setTimeout(() => {
-    ov.style.display = 'none';
-    document.body.style.overflow = '';
-    parReset();
-  }, 280);
+  setTimeout(() => { ov.style.display = 'none'; document.body.style.overflow = ''; parReset(); }, 270);
 }
-
 function parReset() {
   document.getElementById('par-form').reset();
   document.getElementById('par-form').style.display = '';
   document.getElementById('par-ok').classList.remove('show');
   document.getElementById('par-errbox').classList.remove('show');
-  document.querySelectorAll('.par-ferr').forEach(e => e.classList.remove('show'));
-  document.querySelectorAll('#par-form input, #par-form textarea').forEach(e => e.classList.remove('par-err'));
-  const btn = document.getElementById('par-submit');
-  btn.disabled = false;
-  btn.classList.remove('loading');
+  document.querySelectorAll('.ferr').forEach(e => e.classList.remove('show'));
+  document.querySelectorAll('#par-form input, #par-form textarea').forEach(e => e.classList.remove('inp-err'));
+  const b = document.getElementById('par-submit');
+  b.disabled = false;
+  b.classList.remove('loading');
 }
+document.getElementById('par-overlay').addEventListener('click', e => { if (e.target.id === 'par-overlay') parCerrar(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') parCerrar(); });
 
-document.getElementById('par-overlay').addEventListener('click', function(e) {
-  if (e.target === this) parCerrar();
-});
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') parCerrar();
-});
-
-/* ===== VALIDACIÓN ===== */
+/* ─── VALIDACIÓN ─── */
 ['par-nombre','par-email'].forEach(id => {
   document.getElementById(id).addEventListener('input', function() {
-    this.classList.remove('par-err');
-    const errId = id === 'par-nombre' ? 'err-nombre' : 'err-email';
-    document.getElementById(errId).classList.remove('show');
+    this.classList.remove('inp-err');
+    document.getElementById('err-' + id.replace('par-','')).classList.remove('show');
   });
 });
 
 function validar() {
-  const nombre = document.getElementById('par-nombre');
-  const email  = document.getElementById('par-email');
+  const n = document.getElementById('par-nombre');
+  const e = document.getElementById('par-email');
   let ok = true;
-
-  if (!nombre.value.trim() || nombre.value.trim().length < 2) {
-    nombre.classList.add('par-err');
+  if (!n.value.trim() || n.value.trim().length < 2) {
+    n.classList.add('inp-err');
     document.getElementById('err-nombre').classList.add('show');
     ok = false;
   }
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
-    email.classList.add('par-err');
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.value.trim())) {
+    e.classList.add('inp-err');
     document.getElementById('err-email').classList.add('show');
     ok = false;
   }
   return ok;
 }
 
-/* ===== ENVÍO ===== */
-document.getElementById('par-form').addEventListener('submit', async function(e) {
-  e.preventDefault();
+/* ─── ENVÍO ─── */
+document.getElementById('par-form').addEventListener('submit', async function(ev) {
+  ev.preventDefault();
   if (!validar()) return;
 
   const btn = document.getElementById('par-submit');
@@ -496,13 +649,10 @@ document.getElementById('par-form').addEventListener('submit', async function(e)
       headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify(payload)
     });
-
-    // Con no-cors no se puede leer respuesta → asumimos éxito
-    const idLocal = 'REG-' + Date.now().toString(36).toUpperCase();
-    document.getElementById('par-ok-id').textContent = 'Ref: ' + idLocal;
+    const ref = 'PAR-' + Date.now().toString(36).toUpperCase();
+    document.getElementById('ok-ref').textContent = 'Ref: ' + ref;
     document.getElementById('par-form').style.display = 'none';
     document.getElementById('par-ok').classList.add('show');
-
   } catch(err) {
     btn.disabled = false;
     btn.classList.remove('loading');
