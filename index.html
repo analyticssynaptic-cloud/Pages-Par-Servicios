@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Regístrate en Pausas Activas PAR Servicios - Bienestar laboral y seguridad vial para tu empresa.">
+<title>Registro Pausas Activas · PAR Servicios</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ===== TOKENS PAR ===== */
+:root {
+  --brand-green: #0FBF8B;
+  --brand-green-dark: #0A9E72;
+  --brand-green-soft: #E6F9F2;
+  --brand-green-deep: #086B4D;
+  --bg-main: #2A3441;
+  --dark2: #3D4A5C;
+  --text-light: #FFFFFF;
+  --cream: #FAFCFE;
+  --bg-light: #FFFFFF;
+  --bg-surface: #F7F9FB;
+  --border-light: #E5EAF0;
+  --text-dark: #1A202C;
+  --text-main: #3D4A5C;
+  --text-muted: #5B6878;
+  --danger: #DC2626;
+  --danger-soft: #FEF2F2;
+  --success: #0FBF8B;
+  --success-soft: #E6F9F2;
+  --sh-green: rgba(15,191,139,.3);
+  --sh-dark: rgba(42,52,65,.14);
+  --sh-md: 0 4px 14px rgba(42,52,65,.10);
+  --sh-lg: 0 14px 40px rgba(42,52,65,.14);
+  --gh: linear-gradient(135deg,#2A3441 0%,#3D4A5C 52%,#0A9E72 100%);
+  --gh-green: linear-gradient(135deg,#0FBF8B 0%,#0A9E72 100%);
+  --ease: .3s cubic-bezier(.4,0,.2,1);
+  --ease-bounce: .4s cubic-bezier(.34,1.56,.64,1);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Barlow','Inter',-apple-system,sans-serif;background:var(--bg-main);color:var(--text-light);min-height:100vh;overflow-x:hidden}
+
+/* ===== HERO ===== */
+.hero{min-height:100vh;background:var(--gh);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:40px 20px;text-align:center}
+.hero::before{content:'';position:absolute;top:-80px;right:-80px;width:420px;height:420px;background:radial-gradient(circle,rgba(15,191,139,.28) 0%,transparent 70%);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-60px;left:-60px;width:320px;height:320px;background:radial-gradient(circle,rgba(15,191,139,.18) 0%,transparent 70%);pointer-events:none}
+
+.logo-img{height:80px;width:auto;margin-bottom:24px;filter:drop-shadow(0 4px 12px rgba(15,191,139,.18))}
+.hero-badge{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--brand-green);background:rgba(15,191,139,.12);border:1px solid rgba(15,191,139,.3);border-radius:20px;padding:5px 16px;display:inline-block;margin-bottom:18px}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.4rem,6vw,3.8rem);letter-spacing:1px;color:var(--text-light);line-height:1.1;margin-bottom:14px}
+.hero h1 span{color:var(--brand-green)}
+.hero p{font-size:1.05rem;color:rgba(255,255,255,.72);max-width:520px;line-height:1.7;margin-bottom:32px}
+.btn-hero{display:inline-flex;align-items:center;gap:10px;background:var(--gh-green);color:#fff;font-family:'Barlow',sans-serif;font-weight:700;font-size:1rem;padding:14px 34px;border-radius:50px;border:none;cursor:pointer;box-shadow:0 8px 24px var(--sh-green);transition:transform var(--ease),box-shadow var(--ease)}
+.btn-hero:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 12px 32px var(--sh-green)}
+.btn-hero svg{width:20px;height:20px}
+
+/* ===== FLOATING BUTTON ===== */
+.fab{position:fixed;bottom:24px;right:24px;width:62px;height:62px;border-radius:50%;background:var(--gh-green);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px var(--sh-green);z-index:9999;transition:transform var(--ease-bounce),box-shadow var(--ease);color:#fff}
+.fab:hover{transform:scale(1.12);box-shadow:0 14px 32px rgba(15,191,139,.45)}
+.fab svg{width:26px;height:26px;pointer-events:none}
+.fab-label{position:absolute;right:70px;background:var(--dark2);color:#fff;font-family:'Barlow',sans-serif;font-size:.82rem;font-weight:600;padding:6px 12px;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity var(--ease);box-shadow:var(--sh-md)}
+.fab-label::after{content:'';position:absolute;right:-6px;top:50%;transform:translateY(-50%);border:6px solid transparent;border-left-color:var(--dark2);border-right:none}
+.fab:hover .fab-label{opacity:1}
+
+/* ===== OVERLAY ===== */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);z-index:10000;display:none;align-items:center;justify-content:center;padding:16px;opacity:0;transition:opacity var(--ease)}
+.overlay.open{display:flex;animation:fadeIn .3s forwards}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* ===== MODAL ===== */
+.modal{background:var(--bg-light);border-radius:18px;width:100%;max-width:460px;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.28);transform:translateY(30px) scale(.97);animation:slideUp .32s cubic-bezier(.34,1.3,.64,1) forwards}
+@keyframes slideUp{from{transform:translateY(30px) scale(.97);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
+
+.modal-header{background:var(--gh-green);padding:24px 28px 20px;position:relative}
+.modal-header h2{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;letter-spacing:.5px;color:#fff;margin-bottom:4px}
+.modal-header p{font-size:.88rem;color:rgba(255,255,255,.82)}
+.modal-close{position:absolute;top:14px;right:16px;background:rgba(255,255,255,.18);border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;transition:background var(--ease)}
+.modal-close:hover{background:rgba(255,255,255,.32)}
+.modal-close svg{width:16px;height:16px}
+
+.modal-body{padding:28px}
+.form-group{margin-bottom:18px;position:relative}
+.form-group label{display:block;font-size:.82rem;font-weight:600;color:var(--text-muted);margin-bottom:6px;letter-spacing:.3px}
+.form-group input,.form-group textarea,.form-group select{width:100%;padding:11px 14px;border:1.5px solid var(--border-light);border-radius:10px;font-family:'Barlow',sans-serif;font-size:.95rem;color:var(--text-dark);background:var(--bg-surface);transition:border-color var(--ease),box-shadow var(--ease);outline:none;resize:none}
+.form-group input:focus,.form-group textarea:focus{border-color:var(--brand-green);box-shadow:0 0 0 3px rgba(15,191,139,.12)}
+.form-group input.error,.form-group textarea.error{border-color:var(--danger);box-shadow:0 0 0 3px rgba(220,38,38,.08)}
+.field-error{font-size:.78rem;color:var(--danger);margin-top:4px;display:none}
+.field-error.show{display:block}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:420px){.form-row{grid-template-columns:1fr}}
+
+.btn-submit{width:100%;padding:14px;background:var(--gh-green);color:#fff;border:none;border-radius:12px;font-family:'Barlow',sans-serif;font-weight:700;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 6px 20px var(--sh-green);transition:transform var(--ease),box-shadow var(--ease);margin-top:6px}
+.btn-submit:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 10px 28px var(--sh-green)}
+.btn-submit:disabled{opacity:.65;cursor:not-allowed;transform:none}
+.spinner{width:18px;height:18px;border:2.5px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none}
+.btn-submit.loading .spinner{display:block}
+.btn-submit.loading .btn-text{display:none}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ===== SUCCESS ===== */
+.success-box{background:var(--success-soft);border:1.5px solid rgba(15,191,139,.3);border-radius:14px;padding:24px;text-align:center;display:none}
+.success-box.show{display:block;animation:fadeIn .4s ease}
+.success-icon{width:52px;height:52px;background:var(--gh-green);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;box-shadow:0 6px 18px var(--sh-green)}
+.success-icon svg{width:26px;height:26px;color:#fff}
+.success-box h3{font-family:'Barlow',sans-serif;font-size:1.1rem;font-weight:700;color:var(--brand-green-deep);margin-bottom:6px}
+.success-box p{font-size:.9rem;color:var(--text-muted)}
+.success-id{font-family:'Barlow Condensed',sans-serif;font-size:.82rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-top:10px}
+
+/* ===== ERROR BOX ===== */
+.error-box{background:var(--danger-soft);border:1.5px solid rgba(220,38,38,.25);border-radius:10px;padding:12px 16px;font-size:.88rem;color:var(--danger);display:none;margin-bottom:14px}
+.error-box.show{display:block}
+
+/* ===== SVG SYMBOLS ===== */
+</style>
+</head>
+<body>
+
+<!-- SVG SYMBOLS -->
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+    <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="20 6 9 17 4 12"/>
+  </symbol>
+  <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+  </symbol>
+  <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+  </symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+  </symbol>
+</svg>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <img class="logo-img"
+    src="data:image/png;base64,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"
+    alt="PAR Servicios" onerror="this.style.display='none'">
+  <span class="hero-badge">Bienestar Laboral · Seguridad Vial</span>
+  <h1>Pausas Activas<br><span>Para Tu Empresa</span></h1>
+  <p>Mejora la productividad, reduce el ausentismo y fortalece el bienestar de tu equipo con nuestro programa de pausas activas certificado.</p>
+  <button class="btn-hero" onclick="abrirFormulario()">
+    <svg><use href="#i-user"/></svg>
+    Regístrate Ahora
+    <svg><use href="#i-arrow"/></svg>
+  </button>
+</section>
+
+<!-- ===== BOTÓN FLOTANTE ===== -->
+<button class="fab" id="fab" onclick="abrirFormulario()" aria-label="Abrir formulario de registro">
+  <span class="fab-label">Regístrate</span>
+  <svg><use href="#i-plus"/></svg>
+</button>
+
+<!-- ===== OVERLAY / MODAL ===== -->
+<div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal" id="modal">
+
+    <!-- Header -->
+    <div class="modal-header">
+      <button class="modal-close" onclick="cerrarFormulario()" aria-label="Cerrar">
+        <svg><use href="#i-x"/></svg>
+      </button>
+      <h2 id="modal-title">Regístrate a Pausas Activas</h2>
+      <p>Completa el formulario y te contactamos</p>
+    </div>
+
+    <!-- Body -->
+    <div class="modal-body">
+
+      <!-- Error global -->
+      <div class="error-box" id="errorBox">Ocurrió un error. Inténtalo de nuevo.</div>
+
+      <!-- Formulario -->
+      <form id="registroForm" novalidate>
+
+        <div class="form-group">
+          <label for="nombre">Nombre completo <span style="color:var(--danger)">*</span></label>
+          <input type="text" id="nombre" name="nombre" placeholder="Ej: Juan Pérez" autocomplete="name">
+          <div class="field-error" id="err-nombre">Ingresa tu nombre completo.</div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Correo electrónico <span style="color:var(--danger)">*</span></label>
+          <input type="email" id="email" name="email" placeholder="juan@empresa.com" autocomplete="email">
+          <div class="field-error" id="err-email">Ingresa un correo válido.</div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="empresa">Empresa</label>
+            <input type="text" id="empresa" name="empresa" placeholder="Nombre de tu empresa" autocomplete="organization">
+          </div>
+          <div class="form-group">
+            <label for="telefono">Teléfono</label>
+            <input type="tel" id="telefono" name="telefono" placeholder="+57 300 123 4567" autocomplete="tel">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="mensaje">Mensaje (opcional)</label>
+          <textarea id="mensaje" name="mensaje" rows="3" placeholder="¿Algo que quieras contarnos?"></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit" id="btnSubmit">
+          <div class="spinner"></div>
+          <span class="btn-text">Enviar Registro</span>
+        </button>
+
+      </form>
+
+      <!-- Éxito -->
+      <div class="success-box" id="successBox">
+        <div class="success-icon">
+          <svg><use href="#i-check"/></svg>
+        </div>
+        <h3>¡Registro Exitoso!</h3>
+        <p>Recibimos tu información. Pronto te contactaremos para coordinar las pausas activas.</p>
+        <div class="success-id" id="successId"></div>
+      </div>
+
+    </div><!-- /modal-body -->
+  </div><!-- /modal -->
+</div><!-- /overlay -->
+
+<script>
+/* ===== CONFIGURACIÓN ===== */
+// Reemplaza con la URL real de tu Google Apps Script desplegado
+const GAS_URL = "https://script.google.com/macros/s/AKfycbyj1mZJ6gTsnRrvnTFM50UTFqO8DintslOzmyotmQ6Zt0ZuVeVuBE0DUBWLCTphK1tE/exec";
+
+/* ===== MODAL ===== */
+function abrirFormulario() {
+  const overlay = document.getElementById('overlay');
+  overlay.style.display = 'flex';
+  requestAnimationFrame(() => overlay.classList.add('open'));
+  document.body.style.overflow = 'hidden';
+}
+
+function cerrarFormulario() {
+  const overlay = document.getElementById('overlay');
+  overlay.classList.remove('open');
+  setTimeout(() => {
+    overlay.style.display = 'none';
+    document.body.style.overflow = '';
+    resetForm();
+  }, 280);
+}
+
+function resetForm() {
+  document.getElementById('registroForm').reset();
+  document.getElementById('successBox').classList.remove('show');
+  document.getElementById('errorBox').classList.remove('show');
+  document.getElementById('registroForm').style.display = '';
+  document.querySelectorAll('.field-error').forEach(el => el.classList.remove('show'));
+  document.querySelectorAll('.form-group input, .form-group textarea').forEach(el => el.classList.remove('error'));
+  const btn = document.getElementById('btnSubmit');
+  btn.disabled = false;
+  btn.classList.remove('loading');
+}
+
+/* Cerrar con Escape o clic en overlay */
+document.getElementById('overlay').addEventListener('click', function(e) {
+  if (e.target === this) cerrarFormulario();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') cerrarFormulario();
+});
+
+/* ===== VALIDACIÓN ===== */
+function validarEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+}
+
+function validarCampos() {
+  let ok = true;
+  const nombre = document.getElementById('nombre');
+  const email = document.getElementById('email');
+
+  if (!nombre.value.trim() || nombre.value.trim().length < 3) {
+    nombre.classList.add('error');
+    document.getElementById('err-nombre').classList.add('show');
+    ok = false;
+  } else {
+    nombre.classList.remove('error');
+    document.getElementById('err-nombre').classList.remove('show');
+  }
+
+  if (!validarEmail(email.value)) {
+    email.classList.add('error');
+    document.getElementById('err-email').classList.add('show');
+    ok = false;
+  } else {
+    email.classList.remove('error');
+    document.getElementById('err-email').classList.remove('show');
+  }
+
+  return ok;
+}
+
+/* Limpiar error al escribir */
+['nombre','email'].forEach(id => {
+  document.getElementById(id).addEventListener('input', function() {
+    this.classList.remove('error');
+    document.getElementById('err-' + id).classList.remove('show');
+  });
+});
+
+/* ===== ENVÍO ===== */
+document.getElementById('registroForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  if (!validarCampos()) return;
+
+  const btn = document.getElementById('btnSubmit');
+  btn.disabled = true;
+  btn.classList.add('loading');
+  document.getElementById('errorBox').classList.remove('show');
+
+  const datos = {
+    nombre: document.getElementById('nombre').value.trim(),
+    email: document.getElementById('email').value.trim(),
+    empresa: document.getElementById('empresa').value.trim(),
+    telefono: document.getElementById('telefono').value.trim(),
+    mensaje: document.getElementById('mensaje').value.trim()
+  };
+
+  try {
+    const resp = await fetch(GAS_URL, {
+      method: 'POST',
+      mode: 'no-cors', // GAS con text/plain no necesita preflight
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify(datos)
+    });
+
+    // Con no-cors no podemos leer la respuesta, asumimos éxito si no hay error
+    mostrarExito('REG-' + Date.now().toString(36).toUpperCase());
+
+  } catch (err) {
+    console.error(err);
+    btn.disabled = false;
+    btn.classList.remove('loading');
+    document.getElementById('errorBox').textContent = 'Error de conexión. Verifica tu internet e inténtalo de nuevo.';
+    document.getElementById('errorBox').classList.add('show');
+  }
+});
+
+function mostrarExito(id) {
+  document.getElementById('registroForm').style.display = 'none';
+  document.getElementById('successId').textContent = 'ID: ' + id;
+  document.getElementById('successBox').classList.add('show');
+}
+
+/* Mostrar FAB después de 2 segundos */
+setTimeout(() => {
+  document.getElementById('fab').style.opacity = '1';
+}, 400);
+</script>
+
+</body>
+</html>
