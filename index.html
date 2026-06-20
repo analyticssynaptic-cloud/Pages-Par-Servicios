@@ -235,6 +235,49 @@ h1 span { color: var(--green); }
   position: relative;
 }
 
+/* ── HINT DOMINIO ── */
+.domain-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  font-size: .82rem;
+  color: rgba(255,255,255,.45);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 10px;
+  padding: 10px 16px;
+  background: rgba(255,255,255,.03);
+}
+.domain-hint svg { flex-shrink: 0; color: var(--green); opacity: .7; }
+.domain-hint strong { color: rgba(255,255,255,.7); font-weight: 700; }
+
+/* ── BOTÓN IR AL SITIO (post-registro) ── */
+.btn-site {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  width: 100%;
+  margin-top: 14px;
+  padding: 13px 22px;
+  background: var(--gh-green);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-family: 'Barlow', sans-serif;
+  font-size: .97rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 20px var(--sh-green);
+  text-decoration: none;
+  transition: transform var(--ease), box-shadow var(--ease);
+}
+.btn-site:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 28px rgba(15,191,139,.5);
+}
+.btn-site svg { width: 18px; height: 18px; flex-shrink: 0; }
+
 /* ══════════════════════════════
    MODAL
 ══════════════════════════════ */
@@ -486,14 +529,11 @@ h1 span { color: var(--green); }
 
     <div class="divider">o</div>
 
-    <!-- Botón secundario: abre Jimdo en nueva pestaña -->
-    <a class="btn-outline"
-       href="https://parserviciospausas-activas.jimdosite.com/"
-       target="_blank"
-       rel="noopener noreferrer">
-      <svg><use href="#i-external"/></svg>
-      Ver sitio completo de PAR Servicios
-    </a>
+    <!-- Solo colaboradores PAR pueden ver el sitio -->
+    <div class="domain-hint">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      Exclusivo para colaboradores <strong>@parservicios.com</strong>
+    </div>
   </div>
 
   <!-- Pills de beneficios -->
@@ -531,8 +571,8 @@ h1 span { color: var(--green); }
         </div>
 
         <div class="fg">
-          <label for="par-email">Correo electrónico <span style="color:var(--danger)">*</span></label>
-          <input type="email" id="par-email" placeholder="juan@empresa.com" autocomplete="email">
+          <label for="par-email">Correo electrónico <span style="color:var(--danger)">*</span> <span style="color:#0FBF8B;font-weight:700">@parservicios.com</span></label>
+          <input type="email" id="par-email" placeholder="nombre@parservicios.com" autocomplete="email">
           <div class="ferr" id="err-email">Ingresa un correo válido.</div>
         </div>
 
@@ -563,6 +603,14 @@ h1 span { color: var(--green); }
         <h3>¡Inscripción Exitosa!</h3>
         <p>Recibimos tus datos. Pronto te contactaremos para coordinar las pausas activas.</p>
         <div class="ok-ref" id="ok-ref"></div>
+        <a id="btn-ir-sitio"
+           href="https://parserviciospausas-activas.jimdosite.com/"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="btn-site">
+          <svg><use href="#i-external"/></svg>
+          Ingresar al sitio de PAR Servicios
+        </a>
       </div>
     </div>
 
@@ -607,20 +655,35 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') parCerrar();
   });
 });
 
+const DOMINIO_PERMITIDO = "parservicios.com";
+
 function validar() {
   const n = document.getElementById('par-nombre');
   const e = document.getElementById('par-email');
   let ok = true;
+
   if (!n.value.trim() || n.value.trim().length < 2) {
     n.classList.add('inp-err');
     document.getElementById('err-nombre').classList.add('show');
     ok = false;
   }
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.value.trim())) {
+
+  const emailVal = e.value.trim().toLowerCase();
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const errEl = document.getElementById('err-email');
+
+  if (!emailRegex.test(emailVal)) {
     e.classList.add('inp-err');
-    document.getElementById('err-email').classList.add('show');
+    errEl.textContent = 'Ingresa un correo electrónico válido.';
+    errEl.classList.add('show');
+    ok = false;
+  } else if (!emailVal.endsWith('@' + DOMINIO_PERMITIDO)) {
+    e.classList.add('inp-err');
+    errEl.textContent = 'Solo se permiten correos @' + DOMINIO_PERMITIDO + '.';
+    errEl.classList.add('show');
     ok = false;
   }
+
   return ok;
 }
 
